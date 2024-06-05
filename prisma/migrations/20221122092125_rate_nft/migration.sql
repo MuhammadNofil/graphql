@@ -1,0 +1,5 @@
+-- CreateEnum
+CREATE TYPE "RATING" AS ENUM ('LIKE', 'DISPLIEK');
+
+-- AlterTable
+ALTER TABLE "RateNft" ADD COLUMN     "rating" "RATING" NOT NULL DEFAULT 'LIKE';

@@ -1,0 +1,5 @@
+-- CreateEnum
+CREATE TYPE "NFT_TYPE" AS ENUM ('FORE', 'EXTERNAL');
+
+-- AlterTable
+ALTER TABLE "Nft" ADD COLUMN     "nftType" "NFT_TYPE" NOT NULL DEFAULT 'FORE';

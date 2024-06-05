@@ -1,0 +1,389 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "filteredRelationCount"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum GENDER {
+  MALE
+  FEMALE
+}
+
+enum RATING {
+  LIKE
+  DISLIKE
+}
+
+enum NFT_TYPE {
+  FORE
+  EXTERNAL
+}
+
+model Role {
+  id        String   @id @default(cuid())
+  title     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deleted   Boolean  @default(false)
+  user      User[]
+}
+
+model User {
+  id                    String         @id @default(cuid())
+  userName              String         @unique
+  roleId                String
+  role                  Role           @relation(fields: [roleId], references: [id])
+  email                 String         @unique
+  password              String
+  isVerified            Boolean        @default(false)
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime?      @updatedAt
+  deleted               Boolean        @default(false)
+  profile               Profile?
+  wallet                Wallet[]
+  notification          Notification[] @relation("notification")
+  notificationCreatedBy Notification[] @relation("notificationCreatedBy")
+}
+
+model Profile {
+  id              String          @id @default(cuid())
+  profilePicture  String?
+  banner          String?
+  name            String?
+  userId          String          @unique
+  user            User            @relation(fields: [userId], references: [id])
+  interests       String[]
+  bio             String?
+  address         String?
+  gender          GENDER          @default(MALE)
+  points          Int             @default(0)
+  coins           Int             @default(0)
+  swipe           Int             @default(100)
+  dateOfBirth     DateTime?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime?       @updatedAt
+  deleted         Boolean         @default(false)
+  socialProfile   SocialProfile[]
+  following       Follow[]        @relation("Follow_follower")
+  followers       Follow[]        @relation("Follow_followed")
+  blocker         Block[]         @relation("blocker_profile")
+  blocked         Block[]         @relation("blocked_profile")
+  reporterProfile ReportProfile[] @relation("reporter_profile")
+  reportedProfile ReportProfile[] @relation("reported_profile")
+  Nft             Nft[]
+  comment         Comment[]
+  rateNft         RateNft[]
+  reportNft       ReportNft[]
+  commentLike     Commentlike[]
+  like            Like[]
+  group           Group[]
+  groupPost       GroupPost[]
+  commentreply    Commentreply[]
+  reportGroup     ReportGroup[]
+  groupMember     GroupMember[]
+  groupInvite     GroupInvite[]
+  feedBack        FeedBack[]
+  nftImpression   NftImpression[]
+  nftView         NftView[]
+  verified        Boolean         @default(false)
+  featureDate     DateTime?
+}
+
+model SocialProfile {
+  id        String    @id @default(cuid())
+  type      String
+  url       String
+  profileId String
+  profile   Profile   @relation(fields: [profileId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deleted   Boolean   @default(false)
+}
+
+model Interests {
+  id        String    @id @default(cuid())
+  title     String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deleted   Boolean   @default(false)
+}
+
+model Wallet {
+  id        String    @id @default(cuid())
+  address   String
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deleted   Boolean   @default(false)
+  Nft       Nft[]
+}
+
+model Follow {
+  id                String    @id @default(cuid())
+  followerProfileId String
+  followerProfile   Profile   @relation("Follow_follower", fields: [followerProfileId], references: [id])
+  followedProfileId String
+  followedProfile   Profile   @relation("Follow_followed", fields: [followedProfileId], references: [id])
+  isFollowed        Boolean   @default(true)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime? @updatedAt
+  deleted           Boolean   @default(false)
+}
+
+model Block {
+  id               String    @id @default(cuid())
+  profileId        String
+  profile          Profile   @relation("blocker_profile", fields: [profileId], references: [id])
+  blockedProfileId String
+  blockedProfile   Profile   @relation("blocked_profile", fields: [blockedProfileId], references: [id])
+  isBlocked        Boolean   @default(true)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime? @updatedAt
+  deleted          Boolean   @default(false)
+}
+
+model ReportProfile {
+  id                String    @id @default(cuid())
+  profileId         String
+  profile           Profile   @relation("reporter_profile", fields: [profileId], references: [id])
+  reportedProfileId String
+  reportedProfile   Profile   @relation("reported_profile", fields: [reportedProfileId], references: [id])
+  reportType        String
+  description       String?
+  resolved          Boolean   @default(false)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime? @updatedAt
+  deleted           Boolean   @default(false)
+}
+
+model Nft {
+  id            String          @id @default(cuid()) //
+  profileId     String
+  profile       Profile         @relation(fields: [profileId], references: [id])
+  walletId      String
+  wallet        Wallet          @relation(fields: [walletId], references: [id])
+  image         String
+  link          String?
+  mediaHash     String          @unique
+  title         String
+  description   String?
+  category      String[]
+  price         Float?
+  blockChain    String
+  createdAt     DateTime        @default(now()) //
+  updatedAt     DateTime?       @updatedAt //
+  deleted       Boolean         @default(false) //
+  type          NFT_TYPE        @default(FORE)
+  comment       Comment[]
+  Like          Like[]
+  rateNft       RateNft[]
+  reportNft     ReportNft[]
+  groupPost     GroupPost[]
+  NftImpression NftImpression[]
+  NftView       NftView[]
+  featureDate   DateTime?
+}
+
+model Comment {
+  id           String         @id @default(cuid()) //
+  profileId    String
+  profile      Profile        @relation(fields: [profileId], references: [id])
+  nftId        String
+  nft          Nft            @relation(fields: [nftId], references: [id])
+  description  String
+  createdAt    DateTime       @default(now()) //
+  updatedAt    DateTime?      @updatedAt //
+  deleted      Boolean        @default(false) //
+  commentLike  Commentlike[]
+  commentReply Commentreply[]
+}
+
+model Like {
+  id        String    @id @default(cuid()) //
+  profileId String
+  profile   Profile   @relation(fields: [profileId], references: [id])
+  nftId     String
+  nft       Nft       @relation(fields: [nftId], references: [id])
+  createdAt DateTime  @default(now()) //
+  updatedAt DateTime? @updatedAt //
+  deleted   Boolean   @default(false) //
+  liked     Boolean   @default(true) //
+}
+
+model Commentlike {
+  id        String    @id @default(cuid()) //
+  profileId String
+  profile   Profile   @relation(fields: [profileId], references: [id]) //
+  commentId String
+  comment   Comment   @relation(fields: [commentId], references: [id]) //
+  createdAt DateTime  @default(now()) //
+  updatedAt DateTime? @updatedAt //
+  deleted   Boolean   @default(false) //
+  liked     Boolean   @default(true) //
+}
+
+model Commentreply {
+  id          String    @id @default(cuid()) //
+  description String
+  profileId   String
+  profile     Profile   @relation(fields: [profileId], references: [id]) //
+  commentId   String
+  comment     Comment   @relation(fields: [commentId], references: [id]) //
+  createdAt   DateTime  @default(now()) //
+  updatedAt   DateTime? @updatedAt //
+  deleted     Boolean   @default(false) //
+}
+
+model Group {
+  id             String        @id @default(cuid()) //
+  ownerProfileId String
+  profile        Profile       @relation(fields: [ownerProfileId], references: [id]) //
+  category       String?
+  name           String
+  displayImage   String?
+  banner         String?
+  isPrivate      Boolean       @default(false)
+  createdAt      DateTime      @default(now()) //
+  updatedAt      DateTime?     @updatedAt //
+  deleted        Boolean       @default(false) //
+  groupPost      GroupPost[]
+  reportGroup    ReportGroup[]
+  groupMember    GroupMember[]
+  groupInvite    GroupInvite[]
+}
+
+model RateNft {
+  id        String    @id @default(cuid()) //
+  profileId String
+  profile   Profile   @relation(fields: [profileId], references: [id])
+  nftId     String
+  nft       Nft       @relation(fields: [nftId], references: [id])
+  rating    RATING    @default(LIKE)
+  createdAt DateTime  @default(now()) //
+  updatedAt DateTime? @updatedAt //
+  deleted   Boolean   @default(false) //
+}
+
+model ReportNft {
+  id                String    @id @default(cuid()) //
+  reporterProfileId String
+  reporterProfile   Profile   @relation(fields: [reporterProfileId], references: [id])
+  nftId             String
+  nft               Nft       @relation(fields: [nftId], references: [id])
+  description       String?
+  reportType        String
+  resolved          Boolean   @default(false)
+  createdAt         DateTime  @default(now()) //
+  updatedAt         DateTime? @updatedAt //
+  deleted           Boolean   @default(false) //
+}
+
+model GroupPost {
+  id          String    @id @default(cuid()) //
+  profileId   String
+  profile     Profile   @relation(fields: [profileId], references: [id])
+  nftId       String
+  nft         Nft       @relation(fields: [nftId], references: [id])
+  groupId     String
+  group       Group     @relation(fields: [groupId], references: [id])
+  description String
+  createdAt   DateTime  @default(now()) //
+  updatedAt   DateTime? @updatedAt //
+  deleted     Boolean   @default(false) //
+}
+
+model ReportGroup {
+  id                String    @id @default(cuid()) //
+  reporterProfileId String
+  reporterProfile   Profile   @relation(fields: [reporterProfileId], references: [id])
+  groupId           String
+  group             Group     @relation(fields: [groupId], references: [id])
+  description       String
+  reportType        String
+  resolved          Boolean   @default(false)
+  createdAt         DateTime  @default(now()) //
+  updatedAt         DateTime? @updatedAt //
+  deleted           Boolean   @default(false) //
+}
+
+model GroupMember {
+  id        String    @id @default(cuid()) //
+  profileId String
+  profile   Profile   @relation(fields: [profileId], references: [id]) //
+  groupId   String
+  group     Group     @relation(fields: [groupId], references: [id]) //
+  role      String    @default("user")
+  isMuted   Boolean   @default(false)
+  createdAt DateTime  @default(now()) //
+  updatedAt DateTime? @updatedAt //
+  deleted   Boolean   @default(false) //
+}
+
+model GroupInvite {
+  id                 String    @id @default(cuid()) //
+  invitedByProfileId String
+  profile            Profile   @relation(fields: [invitedByProfileId], references: [id]) //
+  groupId            String
+  group              Group     @relation(fields: [groupId], references: [id]) //
+  email              String?
+  walletAddress      String?
+  createdAt          DateTime  @default(now()) //
+  updatedAt          DateTime? @updatedAt //
+  deleted            Boolean   @default(false) //
+}
+
+model FeedBack {
+  id        String    @id @default(cuid()) //
+  profileId String
+  profile   Profile   @relation(fields: [profileId], references: [id])
+  message   String
+  createdAt DateTime  @default(now()) //
+  updatedAt DateTime? @updatedAt //
+  deleted   Boolean   @default(false) //
+}
+
+model Notification {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation("notification", fields: [userId], references: [id])
+  title         String
+  message       String
+  refKey        String
+  type          String
+  isRead        Boolean   @default(false)
+  createdBy     String?
+  createdByUser User?     @relation("notificationCreatedBy", fields: [createdBy], references: [id])
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime? @updatedAt
+  deleted       Boolean   @default(false)
+}
+
+model NftImpression {
+  id        String    @id @default(cuid())
+  profileId String
+  profile   Profile   @relation(fields: [profileId], references: [id])
+  nftId     String
+  nft       Nft       @relation(fields: [nftId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deleted   Boolean   @default(false)
+}
+
+model NftView {
+  id        String    @id @default(cuid())
+  profileId String
+  profile   Profile   @relation(fields: [profileId], references: [id])
+  nftId     String
+  nft       Nft       @relation(fields: [nftId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deleted   Boolean   @default(false)
+}

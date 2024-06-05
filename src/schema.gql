@@ -1,0 +1,1442 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type PaginationTotal {
+  pages: Int!
+  records: Int!
+}
+
+type PaginationMetadata {
+  page: Int!
+  limit: Int!
+  total: PaginationTotal!
+}
+
+type Notification {
+  """follow ID"""
+  id: ID!
+
+  """profile ID"""
+  userId: String!
+
+  """profile"""
+  user: User!
+
+  """profile ID"""
+  createdBy: String
+
+  """profile"""
+  createdByUser: User
+
+  """profile ID"""
+  title: String!
+
+  """profile ID"""
+  message: String!
+
+  """profile ID"""
+  refKey: String!
+
+  """icon for notification"""
+  icon: String
+
+  """profile ID"""
+  type: NOTIFICATION_TYPE!
+
+  """soft delete property"""
+  isRead: Boolean!
+
+  """created date time"""
+  createdAt: DateTime!
+
+  """updated date time"""
+  updatedAt: DateTime!
+
+  """soft delete property"""
+  deleted: Boolean!
+}
+
+"""Type of notification"""
+enum NOTIFICATION_TYPE {
+  PROFILE
+  NFT
+  NFTVIEW
+  NFTIMPRESSION
+  USER
+  LIKE
+  GROUPS
+  WALLET
+  FOLLOW
+  COMMENT
+  RATENFT
+  FEEDBACK
+  ANALYTICS
+  REPORTNFT
+  GROUPPOST
+  NOTIFICATON
+  GROUPINVITE
+  GROUPMEMBER
+  REPORTGROUP
+  COMMENTLIKE
+  BLOCKPROFILE
+  REPORTPROFILE
+  SOCIALPROFILE
+  COMMENTREPLIES
+  INVITEACCEPTED
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type PaginatedNotification {
+  data: [Notification!]
+  metadata: PaginationMetadata
+}
+
+type Wallet {
+  """Example field (placeholder)"""
+  id: ID!
+
+  """Example field (placeholder)"""
+  address: String!
+
+  """From session"""
+  userId: String!
+
+  """user"""
+  user: User
+
+  """Example field (placeholder)"""
+  createdAt: DateTime!
+
+  """Example field (placeholder)"""
+  updatedAt: DateTime!
+
+  """Example field (placeholder)"""
+  deleted: Boolean!
+}
+
+type CommentReply {
+  id: ID!
+  description: String!
+  profileId: String!
+  profile: Profile!
+  commentId: String!
+  comment: Comment!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deleted: Boolean!
+}
+
+type CommentLike {
+  """follow ID"""
+  id: ID!
+  profileId: String!
+  commentId: String!
+  comment: Comment!
+  profile: Profile!
+  deleted: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  liked: Boolean!
+}
+
+type Comment {
+  id: ID!
+  profileId: String!
+  profile: Profile!
+  nftId: String!
+  nft: Nft!
+  description: String!
+  repliesCount: Int
+  commentLikesCount: Int
+  commentReply: [CommentReply!]
+  commentLike: [CommentLike!]
+
+  """User created at time"""
+  createdAt: DateTime!
+
+  """User updated at time"""
+  updatedAt: DateTime
+
+  """User deleted check"""
+  deleted: Boolean!
+
+  """User liked check"""
+  isLikedFlag: Boolean!
+
+  """User liked check"""
+  commentCount: Int!
+}
+
+type PaginatedComment {
+  data: [Comment!]
+  metadata: PaginationMetadata
+}
+
+type RateNft {
+  """follow ID"""
+  id: ID!
+  profileId: String!
+  profile: Profile!
+  nftId: String!
+  nft: Nft!
+  rating: RATING!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deleted: Boolean!
+  likesCount: Float
+}
+
+"""The type of RATING"""
+enum RATING {
+  LIKE
+  DISLIKE
+}
+
+type PaginatedRateNft {
+  data: [RateNft!]
+  metadata: PaginationMetadata
+}
+
+type NftStats {
+  positive: Float!
+  negative: Float!
+  total: Float!
+}
+
+type Nft {
+  """follow ID"""
+  id: ID!
+  profileId: String!
+  profile: Profile!
+  comment: [Comment!]
+  walletId: String!
+  wallet: Wallet!
+  image: String!
+  link: String
+  title: String!
+  description: String
+  category: [String!]!
+  price: Float
+  blockChain: String!
+  mediaHash: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deleted: Boolean!
+  likesCount: Float
+  commentCount: Float
+
+  """Example field (placeholder)"""
+  nftImpression: Float
+
+  """Example field (placeholder)"""
+  nftView: Float
+
+  """Example field (placeholder)"""
+  groupPost: [GroupPost!]
+
+  """Nft type"""
+  type: NFT_TYPE!
+  isLiked: Boolean!
+
+  """stats of nft"""
+  stats: NftStats!
+  nftFeature: DateTime
+  rateNft: [RateNft!]!
+}
+
+"""Enum for Nft type"""
+enum NFT_TYPE {
+  FORE
+  EXTERNAL
+}
+
+type PaginatedNft {
+  data: [Nft!]
+  metadata: PaginationMetadata
+}
+
+type GroupPost {
+  id: ID!
+  profileId: String!
+  profile: Profile!
+  nftId: String!
+  nft: Nft!
+  groupId: String!
+  group: Group!
+  description: String
+
+  """User created at time"""
+  createdAt: DateTime!
+
+  """User updated at time"""
+  updatedAt: DateTime
+
+  """User deleted check"""
+  deleted: Boolean!
+}
+
+type PaginatedGroupPost {
+  data: [GroupPost!]
+  metadata: PaginationMetadata
+}
+
+type Group {
+  """follow ID"""
+  id: ID!
+  ownerProfileId: String!
+  profile: Profile!
+  name: String!
+  banner: String
+  displayImage: String
+  category: String
+
+  """Example field (placeholder)"""
+  groupPost: [GroupPost!]
+
+  """Example field (placeholder)"""
+  PostCount: Float
+
+  """Example field (placeholder)"""
+  memberCount: Float
+  isPrivate: String!
+  deleted: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type PaginatedGroup {
+  data: [Group!]
+  metadata: PaginationMetadata
+}
+
+type NftImpression {
+  id: ID!
+  profileId: String!
+  profile: Profile!
+  nftId: String!
+  nft: Nft!
+
+  """User created at time"""
+  createdAt: DateTime!
+
+  """User updated at time"""
+  updatedAt: DateTime
+
+  """User deleted check"""
+  deleted: Boolean!
+}
+
+type PaginatedNftImpression {
+  data: [NftImpression!]
+  metadata: PaginationMetadata
+}
+
+type NftView {
+  id: ID!
+  profileId: String!
+  profile: Profile!
+  nftId: String!
+  nft: Nft!
+
+  """User created at time"""
+  createdAt: DateTime!
+
+  """User updated at time"""
+  updatedAt: DateTime
+
+  """User deleted check"""
+  deleted: Boolean!
+}
+
+type SocialProfile {
+  """profile ID"""
+  id: ID!
+
+  """profile picture"""
+  type: String!
+
+  """interests array"""
+  url: String!
+
+  """profile ID"""
+  profileId: String!
+
+  """profile"""
+  profile: Profile!
+
+  """Example field (placeholder)"""
+  createdAt: DateTime!
+
+  """Example field (placeholder)"""
+  updatedAt: DateTime!
+
+  """Example field (placeholder)"""
+  deleted: Boolean!
+}
+
+type Profile {
+  """Example field (placeholder)"""
+  id: ID!
+
+  """Example field (placeholder)"""
+  profilePicture: String
+
+  """Example field (placeholder)"""
+  banner: String
+
+  """Example field (placeholder)"""
+  name: String
+
+  """Example field (placeholder)"""
+  userId: String
+
+  """user"""
+  user: User
+
+  """Example field (placeholder)"""
+  interests: [String!]
+
+  """Example field (placeholder)"""
+  bio: String
+
+  """Example field (placeholder)"""
+  address: String
+
+  """Example field (placeholder)"""
+  gender: GENDER
+
+  """points profile has"""
+  points: Float!
+
+  """coins profile has"""
+  coins: Float!
+
+  """Example field (placeholder)"""
+  dateOfBirth: DateTime
+
+  """Example field (placeholder)"""
+  socialProfile: [SocialProfile!]
+
+  """Example field (placeholder)"""
+  group: [Group!]
+
+  """Example field (placeholder)"""
+  nftImpression: [NftImpression!]
+
+  """Example field (placeholder)"""
+  nftView: [NftView!]
+
+  """Example field (placeholder)"""
+  groupPost: [GroupPost!]
+
+  """Example field (placeholder)"""
+  comment: [Comment!]
+  likesCount: Float!
+  followedCount: Float!
+  followersCount: Float!
+  isFollowed: Boolean!
+  verified: Boolean!
+  badges: BADGES!
+  profileFeature: DateTime
+  swipe: Float!
+  nft: [Nft!]!
+  rateNft: [RateNft!]!
+
+  """Example field (placeholder)"""
+  createdAt: DateTime!
+
+  """Example field (placeholder)"""
+  updatedAt: DateTime!
+
+  """Example field (placeholder)"""
+  deleted: Boolean!
+}
+
+"""Enum for gender"""
+enum GENDER {
+  MALE
+  FEMALE
+}
+
+"""Enum for BADGES"""
+enum BADGES {
+  NO_BADGE
+  BEGGINER
+  SEMI_PRO
+  MASTER
+  SUPER_USER
+  KING
+}
+
+type PaginatedProfile {
+  data: [Profile!]
+  metadata: PaginationMetadata
+}
+
+type Role {
+  """User ID"""
+  id: ID!
+
+  """User name"""
+  title: String!
+
+  """User created at time"""
+  createdAt: DateTime!
+
+  """User updated at time"""
+  updatedAt: DateTime
+
+  """User deleted check"""
+  deleted: Boolean!
+}
+
+type User {
+  """User ID"""
+  id: ID!
+
+  """User name"""
+  userName: String!
+
+  """User roleID"""
+  roleId: String!
+
+  """User roleID"""
+  role: Role!
+
+  """User email"""
+  email: String!
+
+  """User email"""
+  profile: Profile
+
+  """User email"""
+  wallet: [Wallet!]
+
+  """notification"""
+  notification: [Notification!]
+
+  """the creator of notification"""
+  notificationCreatedBy: [Notification!]
+
+  """User verified status"""
+  isVerified: Boolean!
+
+  """User created at time"""
+  createdAt: DateTime!
+
+  """User updated at time"""
+  updatedAt: DateTime
+
+  """User deleted check"""
+  deleted: Boolean!
+}
+
+type SignUp {
+  """User"""
+  user: User!
+
+  """User JWT token"""
+  token: String!
+}
+
+type SignIn {
+  """User"""
+  user: User!
+
+  """User JWT token"""
+  token: String!
+}
+
+type ForgetPasswordVerifyOtp {
+  """forget password JWT token"""
+  token: String!
+}
+
+type MessageEntity {
+  """response message"""
+  message: String!
+}
+
+type OtpEntity {
+  """response message"""
+  otp: String!
+}
+
+type Interests {
+  """Example field (placeholder)"""
+  id: ID!
+
+  """Example field (placeholder)"""
+  title: String!
+
+  """Example field (placeholder)"""
+  createdAt: DateTime!
+
+  """Example field (placeholder)"""
+  updatedAt: DateTime!
+
+  """Example field (placeholder)"""
+  deleted: Boolean!
+}
+
+type Follow {
+  """follow ID"""
+  id: ID!
+
+  """profile ID"""
+  followerProfileId: String!
+
+  """profile"""
+  followerProfile: Profile!
+
+  """profile ID"""
+  followedProfileId: String!
+
+  """profile"""
+  followedProfile: Profile!
+
+  """is followed property"""
+  isFollowed: Boolean!
+
+  """created date time"""
+  createdAt: DateTime!
+
+  """updated date time"""
+  updatedAt: DateTime!
+
+  """soft delete property"""
+  deleted: Boolean!
+}
+
+type PaginatedFollow {
+  data: [Follow!]
+  metadata: PaginationMetadata
+}
+
+type BlockProfile {
+  """follow ID"""
+  id: ID!
+
+  """profile ID"""
+  profileId: String!
+
+  """profile"""
+  profile: Profile!
+
+  """profile ID"""
+  blockedProfileId: String!
+
+  """profile"""
+  blockedProfile: Profile!
+
+  """is blocked property"""
+  isBlocked: Boolean!
+
+  """created date time"""
+  createdAt: DateTime!
+
+  """updated date time"""
+  updatedAt: DateTime!
+
+  """soft delete property"""
+  deleted: Boolean!
+}
+
+type ReportProfile {
+  """follow ID"""
+  id: ID!
+
+  """profile ID"""
+  profileId: String!
+
+  """profile"""
+  profile: Profile!
+
+  """profile ID"""
+  reportedProfileId: String!
+
+  """profile"""
+  reportedProfile: Profile!
+
+  """report type"""
+  reportType: String!
+
+  """description"""
+  description: String
+
+  """resolved property"""
+  resolved: Boolean!
+
+  """created date time"""
+  createdAt: DateTime!
+
+  """updated date time"""
+  updatedAt: DateTime!
+
+  """soft delete property"""
+  deleted: Boolean!
+}
+
+type ReportGroup {
+  id: ID!
+  reporterProfileId: String!
+  reporterProfile: Profile!
+  groupId: String!
+  group: Group!
+  description: String
+  reportType: String
+
+  """User deleted check"""
+  resolved: Boolean!
+
+  """User created at time"""
+  createdAt: DateTime!
+
+  """User updated at time"""
+  updatedAt: DateTime
+
+  """User deleted check"""
+  deleted: Boolean!
+}
+
+type PaginatedReportGroup {
+  data: [ReportGroup!]
+  metadata: PaginationMetadata
+}
+
+type GroupMember {
+  id: ID!
+  profileId: String!
+  profile: Profile!
+  groupId: String!
+  group: Group!
+  role: String
+
+  """User deleted check"""
+  isMuted: Boolean!
+
+  """User created at time"""
+  createdAt: DateTime!
+
+  """User updated at time"""
+  updatedAt: DateTime
+
+  """User deleted check"""
+  deleted: Boolean!
+}
+
+type GroupInvite {
+  id: ID!
+  invitedByProfileId: String!
+  profile: Profile!
+  groupId: String!
+  group: Group!
+  walletAddress: String!
+  email: String
+
+  """User created at time"""
+  createdAt: DateTime!
+
+  """User updated at time"""
+  updatedAt: DateTime
+
+  """User deleted check"""
+  deleted: Boolean!
+}
+
+type Feedback {
+  """follow ID"""
+  id: ID!
+
+  """profile ID"""
+  profileId: String!
+
+  """profile"""
+  profile: Profile!
+
+  """is followed property"""
+  message: String!
+
+  """created date time"""
+  createdAt: DateTime!
+
+  """updated date time"""
+  updatedAt: DateTime!
+
+  """soft delete property"""
+  deleted: Boolean!
+}
+
+type Like {
+  """follow ID"""
+  id: ID!
+  profileId: String!
+  profile: Profile!
+  nftId: String!
+  nft: Nft!
+  deleted: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  liked: Boolean!
+}
+
+type PaginatedLike {
+  data: [Like!]
+  metadata: PaginationMetadata
+}
+
+type ProfileActivity {
+  """Paginated Comment entity type"""
+  comment: PaginatedComment!
+
+  """Paginated Like entity type"""
+  like: PaginatedLike!
+
+  """Paginated Rate-Nft entity type"""
+  ratedArtWork: PaginatedRateNft!
+}
+
+type ReportNft {
+  """follow ID"""
+  id: ID!
+
+  """profile ID"""
+  reporterProfileId: String!
+
+  """profile"""
+  reporterProfile: Profile!
+
+  """profile ID"""
+  nftId: String!
+
+  """profile"""
+  nft: Nft!
+
+  """description"""
+  description: String
+
+  """report type"""
+  reportType: String!
+
+  """resolved property"""
+  resolved: Boolean!
+
+  """created date time"""
+  createdAt: DateTime!
+
+  """updated date time"""
+  updatedAt: DateTime!
+
+  """soft delete property"""
+  deleted: Boolean!
+}
+
+type PaginatedReportNft {
+  data: [ReportNft!]
+  metadata: PaginationMetadata
+}
+
+type Query {
+  signIn(SignInDto: SignInDto!): SignIn!
+  user(id: Int!): User!
+  userNameAvailable(userName: String!): Boolean!
+  findOneProfile(id: String!): Profile!
+  myProfile: Profile!
+  getAllInterest: [Interests!]!
+  featuredProfile(pagination: PaginationDto!): PaginatedProfile!
+  popularProfiles(pagination: PaginationDto!): PaginatedProfile!
+  socialProfileAll: [SocialProfile!]!
+  socialProfile(id: Int!): SocialProfile!
+  findAllFollowing(findManyFollowDto: FindManyFollowDto!): PaginatedFollow!
+  findAllFollower(findManyFollowDto: FindManyFollowDto!): PaginatedFollow!
+  notification_follow(id: String!): Follow!
+  findAllBlockProfile: [BlockProfile!]!
+  findOneBlockProfile(id: String!): BlockProfile!
+  findAllReportedProfile: [ReportProfile!]!
+  findMyGroups(findManyGroupInput: FindManyGrouptDto!): PaginatedGroup!
+  findOneGroup(id: String!): Group!
+  findAllGroups(findManyGrouptDto: FindManyGrouptDto!): PaginatedGroup!
+  findAllGroupReports(findManyReportGroupDto: FindManyReportGroupDto!): PaginatedReportGroup!
+  leaveGroup(id: String!): MessageEntity!
+  notification_inviteAccepted(id: String!): GroupMember!
+  findAllGroupPost(findManyGroupPostDto: FindManyGroupPostDto!): PaginatedGroupPost!
+  findOneGroupPost(id: String!): GroupPost!
+  notification_invite(id: String!): GroupInvite!
+  InviteGroupWhenSignedIn(signature: String!): GroupInvite!
+  findAllActivities(paginationDto: PaginationDto!): ProfileActivity!
+  findAllLikes(nftId: String!): [Like!]!
+  findLikes(nftId: String!): [Like!]!
+  findPaginatedLikes(paginatedLikeDto: PaginatedLikedDto!): PaginatedLike!
+  notification_like(id: String!): Like!
+  notification_comment(id: String!): Comment!
+  findOneComment(id: String!): Comment!
+  paginatedComment(findPaginatedCommentDto: FindPaginatedCommentDto!): PaginatedComment!
+  notification_commentLike(id: String!): CommentLike!
+  findAllCommentLikes(commentId: String!): [CommentLike!]!
+  notification_commentReply(id: String!): CommentReply!
+  findAllCommentReplies(commentId: String!): [CommentReply!]!
+  commentReplies: [CommentReply!]!
+  rateNft(findManyRateNftDto: FindManyRateNftDto!): [RateNft!]!
+  countSameDayRate: Float!
+  notification_rate(id: String!): RateNft!
+  wallet: [Wallet!]!
+  userNotifications_findAll(findManyNotificationDto: FindManyNotificationDto!): PaginatedNotification!
+  findAllNfts(findManyNftDto: FindManyNftDto!): PaginatedNft!
+  topratedNFt(pagination: PaginationDto!): PaginatedNft!
+  findAllProfileNfts(findAllProfileNftsDto: FindAllProfileNftsDto!): PaginatedNft!
+  findRecentNfts(findRecentNftDto: FindRecentNftDto!): PaginatedNft!
+  findOneNft(id: String!): Nft!
+  findNftLikeFlag(nftId: String!): Boolean!
+  filterNft(filterNftInputArgs: filterNftInputArgs!): PaginatedNft!
+  findAllReportNfts(findManyReportNftDto: FindManyReportNftDto!): PaginatedReportNft!
+  nftImpression(id: Int!): NftImpression!
+  nftView(id: Int!): NftView!
+}
+
+input SignInDto {
+  email: String!
+  password: String!
+  signature: String
+}
+
+input PaginationDto {
+  """Page number."""
+  page: Float!
+
+  """Page size."""
+  limit: Float!
+}
+
+input FindManyFollowDto {
+  """Pagination fields."""
+  pagination: PaginationDto
+
+  """Filter fields."""
+  filter: FilterFollowDto
+}
+
+input FilterFollowDto {
+  """name of the person you want."""
+  name: String!
+}
+
+input FindManyGrouptDto {
+  """Pagination fields."""
+  pagination: PaginationDto
+
+  """Filter fields."""
+  filter: FilterGroupDto
+}
+
+input FilterGroupDto {
+  """name of group"""
+  name: String
+}
+
+input FindManyReportGroupDto {
+  """Pagination fields."""
+  pagination: PaginationDto
+
+  """Filter fields."""
+  filter: FilterReportGroup
+}
+
+input FilterReportGroup {
+  """title of the nft"""
+  nftTitle: String
+
+  """issue resolved?"""
+  resolved: Boolean
+
+  """what is the report type"""
+  reportType: String
+}
+
+input FindManyGroupPostDto {
+  """Pagination fields."""
+  pagination: PaginationDto
+
+  """Filter fields."""
+  filter: FilterGroupPostDto
+}
+
+input FilterGroupPostDto {
+  """title of the nft"""
+  nftTitle: String
+
+  """description of the GroupPost"""
+  description: String
+}
+
+input PaginatedLikedDto {
+  """Pagination fields."""
+  pagination: PaginationDto
+  nftId: String!
+}
+
+input FindPaginatedCommentDto {
+  """Pagination fields."""
+  pagination: PaginationDto
+  nftId: String!
+}
+
+input FindManyRateNftDto {
+  """Pagination fields."""
+  pagination: PaginationDto
+
+  """Filter fields."""
+  filter: FilterRateNftDto
+}
+
+input FilterRateNftDto {
+  """title of the nft"""
+  rating: RATING
+
+  """nft title"""
+  nftTitle: String
+}
+
+input FindManyNotificationDto {
+  """Pagination fields."""
+  pagination: PaginationDto
+
+  """Filter fields."""
+  filter: FilterNotificationDto
+}
+
+input FilterNotificationDto {
+  """title of the nft"""
+  isRead: Boolean
+}
+
+input FindManyNftDto {
+  """Pagination fields."""
+  pagination: PaginationDto
+
+  """Filter fields."""
+  filter: FilterNftDto
+}
+
+input FilterNftDto {
+  """title of the nft"""
+  title: String
+
+  """description of the nft"""
+  description: String
+
+  """description of the nft"""
+  category: [String!]
+}
+
+input FindAllProfileNftsDto {
+  """Pagination fields."""
+  pagination: PaginationDto
+
+  """Filter fields."""
+  filter: FilterNftDto
+
+  """profile ID"""
+  profileId: String!
+}
+
+input FindRecentNftDto {
+  """Pagination fields."""
+  pagination: PaginationDto
+
+  """Filter fields."""
+  filter: FilterRecentNftDto
+}
+
+input FilterRecentNftDto {
+  """description of the nft"""
+  category: [String!]
+
+  """description of the nft"""
+  type: NFT_TYPE
+  recent: Boolean = false
+  isFeatured: Boolean = false
+}
+
+input filterNftInputArgs {
+  """Pagination fields."""
+  pagination: PaginationDto
+
+  """Filter fields."""
+  filter: FilterNftArgs
+}
+
+input FilterNftArgs {
+  category: [String!]
+  title: String
+  trending: Boolean
+  mostViewed: Boolean
+}
+
+input FindManyReportNftDto {
+  """Pagination fields."""
+  pagination: PaginationDto
+
+  """Filter fields."""
+  filter: FilterReportNftDto
+}
+
+input FilterReportNftDto {
+  """title of the nft"""
+  reportType: String
+
+  """title of the nft"""
+  resolved: Boolean
+
+  """nft title"""
+  nftTitle: String
+}
+
+type Mutation {
+  signUp(userSignUpInput: UserSignUpInput!): SignUp!
+  googleSignup(googleAccessTokenInput: GoogleAccessTokenInput!): SignUp!
+  facebookLogin(facebookSigninDTO: FacebookSigninDTO!): SignUp!
+  forgetPassword(forgetPasswordInput: ForgetPasswordInput!): MessageEntity!
+  forgetPasswordVerifyOtp(verifyOtpForgetPasswordInput: VerifyOtpInput!): ForgetPasswordVerifyOtp!
+  changeForgetPassword(verifyOtpForgetPasswordInput: ForgetResetPasswordInput!): SignIn!
+  requestVerification(emailInputType: EmailInputType!): OtpEntity!
+  verifyAccount(verifyOtpInput: VerifyOtpInput!): MessageEntity!
+  createUser(createUserInput: CreateUserInput!): User!
+  changePassword(changePasswordInput: ChangePasswordInput!): MessageEntity!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: Int!): User!
+  updateProfile(updateProfileInput: UpdateProfileInput!): Profile!
+  markedVerified(profileId: String!): MessageEntity!
+  createSocialProfile(createSocialProfileInput: CreateSocialProfileInput!): SocialProfile!
+  updateSocialProfile(updateSocialProfileInput: UpdateSocialProfileInput!): SocialProfile!
+  removeSocialProfile(id: String!): [SocialProfile!]!
+  createFollow(createFollowInput: CreateFollowInput!): Follow!
+  updateFollow(updateFollowInput: UpdateFollowInput!): MessageEntity!
+  createBlockProfile(createBlockProfileInput: CreateBlockProfileInput!): BlockProfile!
+  updateBlockProfile(unBlockProfileInput: UnBlockProfileInput!): MessageEntity!
+  removeBlockProfile(id: Int!): BlockProfile!
+  createReportProfile(createReportProfileInput: CreateReportProfileInput!): ReportProfile!
+  createGroup(createGroupInput: CreateGroupInput!): Group!
+  updateGroup(updateGroupInput: UpdateGroupInput!): Group!
+  createReportGroup(createReportGroupInput: CreateReportGroupInput!): ReportGroup!
+  groupInvite_accept_byId(acceptRejectGroupInviteInput: AcceptRejectGroupInviteInput!): MessageEntity!
+  createGrouppost(createGrouppostInput: CreateGrouppostInput!): GroupPost!
+  updateGrouppost(updateGrouppostInput: UpdateGrouppostInput!): GroupPost!
+  removeGrouppost(id: String!): MessageEntity!
+  createGroupInvite(createGroupInviteInput: CreateGroupInviteInput!): GroupInvite!
+  sendGroupInvite(createGroupInviteInput: CreateGroupInviteInput!): GroupInvite!
+  shareGroup(groupId: String!): String!
+  createFeedback(createFeedbackInput: CreateFeedbackInput!): Feedback!
+  createLike(createLikeInput: CreateLikeInput!): Like!
+  createComment(createCommentInput: CreateCommentInput!): Comment!
+  updateComment(updateCommentInput: UpdateCommentInput!): Comment!
+  removeComment(id: String!): MessageEntity!
+  createCommentLike(createCommentLikeInput: CreateCommentLikeInput!): CommentLike!
+  createCommentReply(createCommentReplyInput: CreateCommentReplyInput!): CommentReply!
+  updateCommentReply(updateCommentReplyInput: UpdateCommentReplyInput!): CommentReply!
+  removeCommentReply(id: String!): MessageEntity!
+  createRateNft(createRateNftInput: CreateRateNftInput!): RateNft!
+  purchase_swipes: MessageEntity!
+  PurchaseProfileFeature: MessageEntity!
+  PurchaseNftFeature(nftId: String!): MessageEntity!
+  removeWallet: MessageEntity!
+  connectWallet(createWalletInput: CreateWalletInput!): Wallet!
+  updateNotification(updateNotificationInput: UpdateNotificationInput!): Notification!
+  removeNotification(id: String!): MessageEntity!
+  createNft(createNftInput: CreateNftInput!): Nft!
+  createNftSignature(nftId: String!): String!
+  getNftViaLink(id: String!): Nft!
+  nftToRate(paginationDto: PaginationDto!): PaginatedNft!
+  createReportNft(createReportNftInput: CreateReportNftInput!): ReportNft!
+  createNftImpression(createNftImpressionInput: CreateNftImpressionInput!): NftImpression!
+  updateNftImpression(updateNftImpressionInput: UpdateNftImpressionInput!): NftImpression!
+  removeNftImpression(id: Int!): NftImpression!
+  createNftView(createNftViewInput: CreateNftViewInput!): NftView!
+  updateNftView(updateNftViewInput: UpdateNftViewInput!): NftView!
+  removeNftView(id: Int!): NftView!
+}
+
+input UserSignUpInput {
+  """User name"""
+  userName: String!
+
+  """User email"""
+  email: String!
+
+  """User email"""
+  password: String!
+
+  """User email"""
+  confirmPassword: String!
+
+  """User email"""
+  signature: String
+}
+
+input GoogleAccessTokenInput {
+  accessToken: String!
+}
+
+input FacebookSigninDTO {
+  facebookUserId: String!
+  accessToken: String!
+}
+
+input ForgetPasswordInput {
+  """User email"""
+  email: String!
+}
+
+input VerifyOtpInput {
+  """User email"""
+  email: String!
+
+  """User email"""
+  otp: String!
+}
+
+input ForgetResetPasswordInput {
+  """User email"""
+  password: String!
+
+  """User email"""
+  confirmPassword: String!
+}
+
+input EmailInputType {
+  email: String!
+}
+
+input CreateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input ChangePasswordInput {
+  """user old password"""
+  oldPassword: String!
+
+  """new Password for email"""
+  newPassword: String!
+}
+
+input UpdateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateProfileInput {
+  """profile picture"""
+  profilePicture: String
+
+  """profile picture"""
+  banner: String
+
+  """interests array"""
+  interests: [String!] = []
+
+  """profile bio"""
+  bio: String
+
+  """address"""
+  address: String
+
+  """gender"""
+  gender: GENDER = MALE
+
+  """date of birth"""
+  dateOfBirth: DateTime
+}
+
+input CreateSocialProfileInput {
+  """profile picture"""
+  type: String!
+
+  """interests array"""
+  url: String!
+}
+
+input UpdateSocialProfileInput {
+  """profile picture"""
+  type: String
+
+  """interests array"""
+  url: String
+  id: ID!
+}
+
+input CreateFollowInput {
+  """profile ID"""
+  followedProfileId: String!
+}
+
+input UpdateFollowInput {
+  """profile ID"""
+  followedProfileId: String!
+}
+
+input CreateBlockProfileInput {
+  """Example field (placeholder)"""
+  blockedProfileId: String!
+}
+
+input UnBlockProfileInput {
+  """Example field (placeholder)"""
+  blockedProfileId: String!
+}
+
+input CreateReportProfileInput {
+  reportedProfileId: String!
+  reportType: String!
+  description: String
+}
+
+input CreateGroupInput {
+  banner: String
+  name: String!
+  isPrivate: Boolean!
+  category: String
+  displayImage: String
+}
+
+input UpdateGroupInput {
+  banner: String
+  name: String!
+  isPrivate: Boolean!
+  category: String
+  displayImage: String
+  id: String
+}
+
+input CreateReportGroupInput {
+  groupId: String!
+  description: String
+  reportType: String!
+}
+
+input AcceptRejectGroupInviteInput {
+  groupInviteId: String!
+  TYPE: GROUP_INVITE_ACCEPT_REJECT = ACCEPT
+}
+
+"""Accept or reject"""
+enum GROUP_INVITE_ACCEPT_REJECT {
+  ACCEPT
+  REJECT
+}
+
+input CreateGrouppostInput {
+  nftId: String!
+  groupId: String!
+  description: String!
+}
+
+input UpdateGrouppostInput {
+  id: String!
+  description: String!
+}
+
+input CreateGroupInviteInput {
+  groupId: String!
+  walletAddress: String
+  email: String
+}
+
+input CreateFeedbackInput {
+  """is followed property"""
+  message: String!
+}
+
+input CreateLikeInput {
+  nftId: String!
+}
+
+input CreateCommentInput {
+  nftId: String!
+  description: String!
+}
+
+input UpdateCommentInput {
+  id: String!
+  description: String!
+}
+
+input CreateCommentLikeInput {
+  commentId: String!
+}
+
+input CreateCommentReplyInput {
+  commentId: String!
+
+  """Example field (placeholder)"""
+  description: String!
+}
+
+input UpdateCommentReplyInput {
+  commentId: String
+  description: String!
+  id: String!
+}
+
+input CreateRateNftInput {
+  nftId: String!
+  rating: RATING!
+}
+
+input CreateWalletInput {
+  """Example field (placeholder)"""
+  address: String!
+}
+
+input UpdateNotificationInput {
+  id: String!
+}
+
+input CreateNftInput {
+  image: String!
+  link: String
+  title: String!
+  description: String
+  mediaHash: String!
+  category: [String!]!
+  price: Float
+  blockChain: String!
+}
+
+input CreateReportNftInput {
+  """profile ID"""
+  nftId: String!
+
+  """description"""
+  description: String
+
+  """report type"""
+  reportType: String!
+}
+
+input CreateNftImpressionInput {
+  nftId: String!
+}
+
+input UpdateNftImpressionInput {
+  nftId: String
+  id: Int!
+}
+
+input CreateNftViewInput {
+  nftId: String!
+}
+
+input UpdateNftViewInput {
+  nftId: String
+  id: Int!
+}
+
+type Subscription {
+  notification(userId: String!): Notification!
+}

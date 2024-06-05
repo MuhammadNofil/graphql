@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Profile" ADD COLUMN     "swipe" INTEGER NOT NULL DEFAULT 100;
